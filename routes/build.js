@@ -3,7 +3,7 @@ var Question = mongoose.model('Question');
 var Assessment = mongoose.model('Assessment');
 
 
-//GET /upload
+//GET /input
 
 exports.index = function(req, res){
   res.render('input/index', {title: 'Express'});
@@ -30,8 +30,6 @@ exports.create = function(req, res){
     }
   });
 };
-
-// Question.find().where()
 
 //GET /input:id
 
