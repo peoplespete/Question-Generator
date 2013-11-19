@@ -1,0 +1,32 @@
+extends ../template/layout
+
+block content
+  h3 Teacher Assessment Design Conservatory
+  #instructions= assessment.instructions
+  if question
+    #question(data-id=question.id)
+          #qText= question.text
+          .row
+            .small-8.columns
+              #calculator
+                #past
+                #present
+                a#saveSolution.button.radius.small.success(href='') Save
+            .small-4.columns
+              #future
+                #add.operator.button +
+                #subtract.operator.button -
+                #multiply.operator.button *
+                #divide.operator.button /
+                #openParens.operator.button (
+                #closeParens.operator.button )
+                #backspace.button.alert <-
+                #nums
+                  each number, i in question.numbersActual
+                    .number.button(data-num=i)= number
+  else
+    h3 Great work!  All of your questions have been saved
+
+
+
+

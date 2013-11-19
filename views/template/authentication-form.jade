@@ -1,0 +1,12 @@
+form#authentication(action='/', method='post')
+  fieldset
+    legend Authentication
+    .row
+      //- mixin field(colSize, type, name, text, value, placeholder, autofocus)
+      mixin field(6, 'text', 'email', 'Email Address')
+      mixin field(6, 'password', 'password', 'Password')
+    .row
+      .small-3.small-offset-6.columns
+        button#register.radius.success.tiny.expand Register
+      .small-3.columns
+        button#login.radius.tiny.expand Login
