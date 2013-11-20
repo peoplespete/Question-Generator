@@ -44,6 +44,7 @@ function sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   if(event) {event.preventDefault();}
 }
 
+
 function roundToDecimals(num, decimalPoints){
   num*= Math.pow(10, decimalPoints);
   num = Math.round(num);

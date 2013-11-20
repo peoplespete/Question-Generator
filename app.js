@@ -4,10 +4,14 @@ var mongoose = require('mongoose');
 // model definitions
 require('require-dir')('./models');
 
+//define middleware
+var middleware = require('./lib/middleware');
+
 // route definitions
 var home = require('./routes/home');
 var build = require('./routes/build');
 var assess = require('./routes/assess');
+var users = require('./routes/users');
 
 var app = express();
 var RedisStore = require('connect-redis')(express);
@@ -19,12 +23,24 @@ require('./config').initialize(app, RedisStore);
 // routes
 app.get('/', home.index);
 //input routes (ADMIN ONLY)
-app.get('/input', build.index);
-app.post('/input', build.create);
-app.get('/input/:id', build.displayTeacherDesign);
-app.put('/input', build.addHowToScore);
+app.get('/input', middleware.isAdmin, build.index);
+app.post('/input', middleware.isAdmin, build.create);
+app.get('/input/:id', middleware.isAdmin, build.displayTeacherDesign);
+app.put('/input', middleware.isAdmin, build.addHowToScore);
 //use routes (STUDENTS)
-app.get('/use', assess.index);
+app.get('/use', middleware.isUser, assess.index);
+app.get('/use/assessment', middleware.isUser, assess.openAssessment);
+app.get('/use/assessment/:id', middleware.isUser, assess.showInstructions);
+app.get('/use/assessment/:id/:question', middleware.isUser, assess.showQuestion)
+
+//login routes
+app.post('/users', users.create);
+app.put('/login', users.login);
+app.delete('/logout', users.logout);
+app.get('/make-me-an-admin', users.makeMeAnAdmin);
+app.get('/admin', middleware.isAdmin, users.admin);
+app.delete('/admin/:id', users.delete);
+app.put('/admin/:id', users.toggleAdmin);
 
 
 // start server & socket.io

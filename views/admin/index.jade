@@ -1,0 +1,22 @@
+extends ../template/layout
+include ../mixins/form-helper
+
+block content
+  .row
+    .small-12.columns
+      #adminContainer
+        table#adminList
+          thead: tr
+            th Username
+            th Email
+            th Admin?
+            th
+          tbody
+            each user in users
+              tr
+                td= user.username
+                td= user.email
+                td: input(type= 'checkbox', checked= user.isAdmin, data-id= user.id)
+                td: form(method='post', action='/admin/#{user.id}')
+                  input(type='hidden', name='_method', value= 'delete')
+                  button.button.radius.alert.tiny(type='submit') DELETE

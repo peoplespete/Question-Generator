@@ -42,6 +42,8 @@ exports.displayTeacherDesign = function(req, res){
   });
 };
 
+// PUT /input
+
 exports.addHowToScore = function(req, res){
   console.log(req.body);
   Question.findById(req.body.id, function(err, question){

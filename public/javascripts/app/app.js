@@ -20,6 +20,8 @@ function initialize(){
   teacherDesign();
   //use
   use();
+  //login;
+  login();
 }
 
 
@@ -170,6 +172,7 @@ function clickSaveSolution(){
   //sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   sendAjaxRequest('/input', question, 'post', 'put', null, function(data){
     console.log(data);
+    window.location.reload();
     //make that question disapeared and thing say it is saved
   });
 
@@ -194,7 +197,18 @@ function evaluate(){
 
 function use(){
   // initialize
+  // $('#findAssessment').on('click', clickFindAssessment);
+}
 
+function clickFindAssessment(e){
+  // var id = $('#whichAssessment').val();
+  //sendAjaxRequest(url, data, verb, altVerb, event, successFn){
+
+  // sendAjaxRequest('/use/?assessmentKey='+id, {}, 'get', null, e, function(data){
+  //   console.log(data);
+
+  // });
+  // e.preventDefault();
 }
 
 
@@ -203,22 +217,106 @@ function use(){
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-function generateNumberForStudent(bounds, decimalPoints){
-  if(decimalPoints === undefined) {
-        decimalPoints = defaultDecimalPoints;
+
+
+//------login-login-login--------------------------------------------------------/
+//you should clean it up so that you never use hidden class!
+function login(){
+// initialize
+  $('#authentication').hide().addClass('hidden');
+  $('#authentication-button').on('click', clickLoginSignUp);
+  $('#register').on('click', clickSignUp);
+  $('#login').on('click', clickLogin);
+  $('table#adminList').on('click','input[type="checkbox"]', toggleAdminStatus);
+
+}
+
+function clickLoginSignUp(e){
+  //toggles signin signup menu
+  if($('#authentication-button').attr('data-email') !== 'anonymous'){
+    sendAjaxRequest('/logout', {}, 'post', 'delete', e, function(data){
+      htmlRestoreLoginLook();
+    });
+  }else{
+    if($('#authentication').hasClass('hidden')){
+      $('#authentication').hide();
+      $('#authentication').removeClass('hidden');
+      $('#authentication').fadeIn(1000);
+    }else{
+      $('#authentication').show();
+      $('#authentication').hide();
+      $('#authentication').addClass('hidden');
+
+    }
+    $('input[name="username"]').focus();
   }
-  var spread = bounds[1] - bounds[0];
-  var num = Math.random() * spread;
-  num+= bounds[0];
-  num = roundToDecimals(num, decimalPoints);
-  return num;
+
+}
+
+function clickSignUp(e){
+  var url = '/users';
+  var data = $('form#authentication').serialize();
+  sendAjaxRequest(url, data, 'post', null, e, function(status){
+    htmlCompletedRegistrationAttempt(status, 'registration');
+  });
+}
+
+function clickLogin(e){
+  var url = '/login';
+  var data = $('form#authentication').serialize();
+  sendAjaxRequest(url, data, 'post', 'put', e, function(data){
+    console.log(data);
+    if(data.status==='ok'){
+      htmlCompletedRegistrationAttempt(data);
+      htmlChangeButtonText(data.username, false);
+    }else{
+      htmlCompletedRegistrationAttempt(data, 'login');
+    }
+  });
+}
+
+function toggleAdminStatus(){
+  var url = '/admin/' + $(this).attr('data-id');
+  // var id = $(this).attr('data-id');
+  console.log(url);
+  sendAjaxRequest(url, {}, 'post', 'put', null, function(data){
+    //$('table#adminList input[data-id='+id+']').attr('checked', data.isAdmin);
+  });
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+function htmlCompletedRegistrationAttempt(data, logOrReg){
+  console.log(status);
+  $('input[name="username"]').val('').focus();
+  $('input[name="email"]').val('');
+  $('input[name="password"]').val('');
+  if(data.status === 'ok'){
+    $('#authentication').show();
+    $('#authentication').hide();
+    $('#authentication').addClass('hidden');
+  }else{
+    alert('There was a problem with your ' + logOrReg + ', please try again.');
+  }
 }
 
 
+function htmlChangeButtonText(newText, isReset){
+  if(isReset){
+    $('#authentication-button').attr('data-email', 'anonymous');
+  }else{
+    $('#authentication-button').attr('data-email', newText);
+  }
+  $('#authentication-button').text(newText).toggleClass('alert');
+}
+
+function htmlRestoreLoginLook(){
+  htmlChangeButtonText('Login | Sign Up', true);
+}
+
 
 //--------------------------------------------------------------------------------/
-
-
 
 
 //--------------------------------------------------------------------------------/
@@ -231,6 +329,25 @@ function generateNumberForStudent(bounds, decimalPoints){
 
 //--------------------------------------------------------------------------------/
 
+//--------------------------------------------------------------------------------/
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//--------------------------------------------------------------------------------/
+
+//--------------------------------------------------------------------------------/
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//--------------------------------------------------------------------------------/
 
 
 

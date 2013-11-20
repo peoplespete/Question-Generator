@@ -4,3 +4,25 @@ block content
   .row
     .small-12.columns
       h1 use page
+      //- pagination
+      if assessment
+        h3= assessment.instructions
+        if questions
+          if question
+            h6= question.text
+          .pagination-centered
+            ul.pagination
+              each question, index in questions
+                li: a(href='/use/assessment/' + assessment.id + '/' + index )= index+1
+        else
+          form(action='/use/assessment/' + assessment.id, method= 'get')
+            button#startAssessment.button.small.radius.success(type='submit') Start your Assessment
+      else
+        form(action='/use/assessment', method= 'get')
+          label(name= 'assessmentKey') Enter Your Assessment Key
+          input#whichAssessment(type= 'text', name= 'assessmentKey')
+          button#findAssessment.button.small.radius.success(type='submit') Take My Assessment
+
+
+
+
