@@ -43,11 +43,11 @@ exports.showQuestion = function(req, res){
       console.log(req.params.question);
       //make questions[req.params.question].text fixed!!!!
       var question = questions[req.params.question];
+      // for(var i = 0 ; i<question.numbersActual.length; i++){
+      //   question.text = question.text.replace(question.numbersActual[i],'~'+i);
+      // }
       for(var i = 0 ; i<question.numbersActual.length; i++){
-        question.text = question.text.replace(question.numbersActual[i],'~'+i);
-      }
-      for(var i = 0 ; i<question.numbersActual.length; i++){
-        question.text = question.text.replace('~' + i, generateNumberForStudent(question.numbersRange[i],defaultDecimalPoints));
+        question.text = question.text.replace('~' + i + '~', generateNumberForStudent(question.numbersRange[i],defaultDecimalPoints));
       }
       res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question});
     });

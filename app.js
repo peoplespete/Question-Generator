@@ -12,6 +12,7 @@ var home = require('./routes/home');
 var build = require('./routes/build');
 var assess = require('./routes/assess');
 var users = require('./routes/users');
+var responses = require('./routes/responses');
 
 var app = express();
 var RedisStore = require('connect-redis')(express);
@@ -41,7 +42,8 @@ app.get('/make-me-an-admin', users.makeMeAnAdmin);
 app.get('/admin', middleware.isAdmin, users.admin);
 app.delete('/admin/:id', users.delete);
 app.put('/admin/:id', users.toggleAdmin);
-
+//response routes
+app.post('/response', responses.create);
 
 // start server & socket.io
 var common = require('./sockets/common');

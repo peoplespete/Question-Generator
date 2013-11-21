@@ -37,7 +37,13 @@ exports.displayTeacherDesign = function(req, res){
   console.log(req.params.id);
   Assessment.findById(req.params.id, function(err, assessment){
     Question.find().where({assessment:req.params.id, howToSolve: []}).exec(function(err, questions){
-      res.render('input/teacher-design', {title: 'Teacher Design', assessment:assessment, question: questions[0]});
+      var question = questions[0];
+      if(question){
+        for(var j = 0; j<question.numbersActual.length; j++){
+          question.text = question.text.replace('~'+j+'~',question.numbersActual[j]);
+        }
+      }
+      res.render('input/teacher-design', {title: 'Teacher Design', assessment:assessment, question: question});
     })
   });
 };

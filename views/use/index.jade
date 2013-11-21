@@ -10,6 +10,8 @@ block content
         if questions
           if question
             h6= question.text
+            input#response(type='text')
+            #submitResponse.button.small.radius.success Submit
           .pagination-centered
             ul.pagination
               each question, index in questions

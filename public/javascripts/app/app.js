@@ -22,6 +22,8 @@ function initialize(){
   use();
   //login;
   login();
+  //response;
+  response();
 }
 
 
@@ -98,8 +100,14 @@ function buildQuestionObjects(questionsText){
   for(var i = 0; i < questionsText.length ; i++){
     var question = {};
     question.text = questionsText[i];
-    ///these should be flaots not strings
     question.numbersActual = parseNumsOutOfQuestion(questionsText[i]);
+    console.log(question);
+    for(var j = 0; j<question.numbersActual.length; j++){
+      question.text = question.text.replace(/\d+/,'@@@');
+    }
+    for(var j = 0; j<question.numbersActual.length; j++){
+      question.text = question.text.replace('@@@','~'+j+'~');
+    }
     question.numbersRange = [];
     for(var j = 0; j<question.numbersActual.length; j++){
       var bounds = generateBounds(question.numbersActual[j]);
@@ -197,18 +205,11 @@ function evaluate(){
 
 function use(){
   // initialize
-  // $('#findAssessment').on('click', clickFindAssessment);
+
 }
 
 function clickFindAssessment(e){
-  // var id = $('#whichAssessment').val();
-  //sendAjaxRequest(url, data, verb, altVerb, event, successFn){
 
-  // sendAjaxRequest('/use/?assessmentKey='+id, {}, 'get', null, e, function(data){
-  //   console.log(data);
-
-  // });
-  // e.preventDefault();
 }
 
 
@@ -316,10 +317,24 @@ function htmlRestoreLoginLook(){
 }
 
 
-//--------------------------------------------------------------------------------/
+//----response-response-response--------------------------------------------------/
 
+function response(){
+  // initialize
+  $('#submitResponse').on('click', clickSubmitResponse);
+}
 
-//--------------------------------------------------------------------------------/
+function clickSubmitResponse(){
+  $('#response').attr('disabled','disabled');
+  $('#submitResponse').off('click').addClass('disabled').fadeOut(500);
+  var response = parseFloat($('#response').val());
+  console.log(response);
+  // sendAjaxRequest(url, data, verb, altVerb, event, successFn)
+  sendAjaxRequest('/response', {response:response}, 'post', null, null, function(data){
+    console.log(data);
+  });
+
+}
 
 
 
