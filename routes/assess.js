@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Question = mongoose.model('Question');
 var Assessment = mongoose.model('Assessment');
+var Response = mongoose.model('Response');
 
 var defaultDecimalPoints = 2;
 
@@ -43,13 +44,30 @@ exports.showQuestion = function(req, res){
       console.log(req.params.question);
       //make questions[req.params.question].text fixed!!!!
       var question = questions[req.params.question];
-      // for(var i = 0 ; i<question.numbersActual.length; i++){
-      //   question.text = question.text.replace(question.numbersActual[i],'~'+i);
-      // }
+      console.log(question);
+      var userNums = [];
       for(var i = 0 ; i<question.numbersActual.length; i++){
-        question.text = question.text.replace('~' + i + '~', generateNumberForStudent(question.numbersRange[i],defaultDecimalPoints));
+        var num = generateNumberForStudent(question.numbersRange[i],defaultDecimalPoints);
+        userNums.push(num);
+        question.text = question.text.replace('~' + i + '~', num);
       }
-      res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question});
+      for(var i  = 0; i < userNums.length; i++){
+        var index = question.howToSolve.indexOf('~' + i );
+        question.howToSolve[index] = userNums[i];
+      }
+      var evaluateMe = question.howToSolve.join('');
+      console.log(evaluateMe);
+      var correctAnswer = eval(evaluateMe);
+      var r = {
+        question: questions[req.params.question],
+        user: res.locals.user,
+        numbers: userNums,
+        correctAnswer: correctAnswer
+        }
+      new Response(r).save(function(err, response){
+        console.log(response);
+        res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question});
+      });
     });
   });
 };

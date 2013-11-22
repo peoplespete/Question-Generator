@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
 var Response = mongoose.Schema({
-  text: String,
   numbers: [Number],
   correctAnswer: Number,
   userAnswer: Number,
-  assessment: {type: mongoose.Schema.Types.ObjectId, ref:'Assessment'},
+  question: {type: mongoose.Schema.Types.ObjectId, ref:'Question'},
+  user: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
   createdAt: {type:Date, default: Date.now}
 });
 

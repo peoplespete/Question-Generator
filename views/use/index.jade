@@ -11,7 +11,7 @@ block content
           if question
             h6= question.text
             input#response(type='text')
-            #submitResponse.button.small.radius.success Submit
+            #submitResponse.button.small.radius.success(data-question-id=question.id) Submit
           .pagination-centered
             ul.pagination
               each question, index in questions

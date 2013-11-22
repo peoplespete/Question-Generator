@@ -329,9 +329,11 @@ function clickSubmitResponse(){
   $('#submitResponse').off('click').addClass('disabled').fadeOut(500);
   var response = parseFloat($('#response').val());
   console.log(response);
+  var question = $('#submitResponse').attr('data-question-id');
   // sendAjaxRequest(url, data, verb, altVerb, event, successFn)
-  sendAjaxRequest('/response', {response:response}, 'post', null, null, function(data){
+  sendAjaxRequest('/response', {response:response, question:question}, 'post', null, null, function(data){
     console.log(data);
+    alert(data.status);
   });
 
 }
