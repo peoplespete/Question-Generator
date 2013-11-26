@@ -1,5 +1,17 @@
 extends ../template/layout
 
 block content
-
-
+  #content
+    #whoAreYou.reveal-modal.small(data-reveal)
+      h3 Who Are You?
+      .row
+        .left
+          #teacher
+            img(src='/images/teacher.png')
+            h4.subheader Teacher
+        .right
+          #student
+            img(src='/images/students.png')
+            h4.subheader Student
+      .row
+        include ../template/authentication-form

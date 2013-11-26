@@ -20,7 +20,8 @@ exports.create = function(req, res){
       var question = req.body.questions[i];
       question.numbersRange = makeArrayinArrayNumbers(question.numbersRange);
       question.assessment = assessment._id;
-      console.log(assessment._id);
+      question.index = i;
+      //console.log(assessment._id);
       new Question(question).save(function(err, question){
         counter++;
         if(counter === req.body.questions.length){
@@ -34,7 +35,7 @@ exports.create = function(req, res){
 //GET /input:id
 
 exports.displayTeacherDesign = function(req, res){
-  console.log(req.params.id);
+  //console.log(req.params.id);
   Assessment.findById(req.params.id, function(err, assessment){
     Question.find().where({assessment:req.params.id, howToSolve: []}).exec(function(err, questions){
       var question = questions[0];
@@ -51,7 +52,7 @@ exports.displayTeacherDesign = function(req, res){
 // PUT /input
 
 exports.addHowToScore = function(req, res){
-  console.log(req.body);
+  //console.log(req.body);
   Question.findById(req.body.id, function(err, question){
     question.howToSolve = req.body.howToSolve;
     question.save(function(err, question){
@@ -91,12 +92,12 @@ function makeArrayinArrayNumbers(numbersRange){
 //       counter++;
 //       if(counter === req.body.questions.length){
 //         Question.find().exec(function(err, questions){
-//           console.log(questions);
+//           //console.log(questions);
 //           var a = {};
 //           a.instructions = req.body.instructions;
 //           a.questions = questions;
 //           new Assessment(a).save(function(err, assessment){
-//             console.log('assessment saved' + assessment.questions);
+//             //console.log('assessment saved' + assessment.questions);
 //             res.send(assessment);
 //           });
 //         });

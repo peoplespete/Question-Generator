@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var Question = mongoose.Schema({
   text: String,
+  index: Number,
   numbersActual: [Number],
   numbersRange: {},
   howToSolve: [],

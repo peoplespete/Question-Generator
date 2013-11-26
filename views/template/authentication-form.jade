@@ -1,4 +1,4 @@
-form#authentication(action='/', method='post')
+form.authentication.hidden(action='/', method='post')
   fieldset
     legend Authentication
     .row
@@ -8,6 +8,6 @@ form#authentication(action='/', method='post')
       mixin field(4, 'password', 'password', 'Password')
     .row
       .small-3.small-offset-6.columns
-        button#register.radius.success.tiny.expand Register
+        button.register.radius.success.tiny.expand Register
       .small-3.columns
-        button#login.radius.tiny.expand Login
+        button.login.radius.tiny.expand Login

@@ -13,6 +13,8 @@ var defaultDecimalPoints = 2;
 
 function initialize(){
   $(document).foundation();
+  $('#whoAreYou').foundation('reveal', 'open', '/');
+
   initializeSocketIO();
   //input
   input();
@@ -224,56 +226,93 @@ function clickFindAssessment(e){
 //you should clean it up so that you never use hidden class!
 function login(){
 // initialize
-  $('#authentication').hide().addClass('hidden');
+  $('.authentication').hide().addClass('hidden');
   $('#authentication-button').on('click', clickLoginSignUp);
-  $('#register').on('click', clickSignUp);
-  $('#login').on('click', clickLogin);
+  $('.register').on('click', clickSignUp);
+  $('.login').on('click', clickLogin);
   $('table#adminList').on('click','input[type="checkbox"]', toggleAdminStatus);
-
+  $('#teacher, #student').on('click', clickTeacherOrStudent);
 }
 
+var isTeacher = false;
 function clickLoginSignUp(e){
   //toggles signin signup menu
   if($('#authentication-button').attr('data-email') !== 'anonymous'){
     sendAjaxRequest('/logout', {}, 'post', 'delete', e, function(data){
       htmlRestoreLoginLook();
+      window.location.href = '/';
     });
   }else{
-    if($('#authentication').hasClass('hidden')){
-      $('#authentication').hide();
-      $('#authentication').removeClass('hidden');
-      $('#authentication').fadeIn(1000);
+    if($('.authentication').hasClass('hidden')){
+      $('.authentication').hide();
+      $('.authentication').removeClass('hidden');
+      $('.authentication').fadeIn(1000);
     }else{
-      $('#authentication').show();
-      $('#authentication').hide();
-      $('#authentication').addClass('hidden');
+      $('.authentication').show();
+      $('.authentication').hide();
+      $('.authentication').addClass('hidden');
 
     }
     $('input[name="username"]').focus();
+    window.location.href = '/';
   }
 
 }
 
 function clickSignUp(e){
+  $('.register').hide()
   var url = '/users';
-  var data = $('form#authentication').serialize();
+  var data = $('form.authentication').serialize();
+  console.log(data);
   sendAjaxRequest(url, data, 'post', null, e, function(status){
     htmlCompletedRegistrationAttempt(status, 'registration');
   });
 }
 
 function clickLogin(e){
+  $('#whoAreYou').hide();
+  //CHECK THE THIS TO SEE IF IT IS TEACH OR STUDENT...IF TEACH GO TO INPUT...IF STU GO TO USE
   var url = '/login';
-  var data = $('form#authentication').serialize();
+  var data = $('form.authentication').serialize();
+  console.log(data);
   sendAjaxRequest(url, data, 'post', 'put', e, function(data){
     console.log(data);
     if(data.status==='ok'){
       htmlCompletedRegistrationAttempt(data);
       htmlChangeButtonText(data.username, false);
+      if(isTeacher){
+        window.location.href = '/input';
+      }else{
+        window.location.href = '/use';
+      }
     }else{
       htmlCompletedRegistrationAttempt(data, 'login');
     }
   });
+}
+
+function clickTeacherOrStudent(e){
+  if($(this).attr('id')==='teacher'){
+    isTeacher = true;
+  }
+  if($('#authentication-button').attr('data-email') !== 'anonymous'){
+    sendAjaxRequest('/logout', {}, 'post', 'delete', e, function(data){
+      htmlRestoreLoginLook();
+      window.location.href = '/';
+    });
+  }else{
+    if($('#whoAreYou .authentication').hasClass('hidden')){
+      $('#whoAreYou .authentication').hide();
+      $('#whoAreYou .authentication').removeClass('hidden');
+      $('#whoAreYou .authentication').fadeIn(1000);
+    }else{
+      $('#whoAreYou .authentication').show();
+      $('#whoAreYou .authentication').hide();
+      $('#whoAreYou .authentication').addClass('hidden');
+
+    }
+    $('#whoAreYou input[name="username"]').focus();
+  }
 }
 
 function toggleAdminStatus(){
@@ -294,9 +333,11 @@ function htmlCompletedRegistrationAttempt(data, logOrReg){
   $('input[name="email"]').val('');
   $('input[name="password"]').val('');
   if(data.status === 'ok'){
-    $('#authentication').show();
-    $('#authentication').hide();
-    $('#authentication').addClass('hidden');
+    if(logOrReg === 'login'){
+      $('.authentication').show();
+      $('.authentication').hide();
+      $('.authentication').addClass('hidden');
+    }
   }else{
     alert('There was a problem with your ' + logOrReg + ', please try again.');
   }
@@ -333,7 +374,14 @@ function clickSubmitResponse(){
   // sendAjaxRequest(url, data, verb, altVerb, event, successFn)
   sendAjaxRequest('/response', {response:response, question:question}, 'post', null, null, function(data){
     console.log(data);
-    alert(data.status);
+    if(data.isCorrect===1){
+      $('#response').addClass('correct');
+      $('#'+data.index).addClass('correct');
+    }else{
+      $('#response').addClass('wrong');
+      $('#'+data.index).addClass('wrong');
+
+    }
   });
 
 }

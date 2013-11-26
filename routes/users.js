@@ -8,14 +8,19 @@ var bcrypt = require('bcrypt');
 
 exports.create = function(req, res){
   var user = new User();
+  // console.log('a');
   user.username = req.body.username;
   user.email = req.body.email;
   bcrypt.hash(req.body.password, 10, function(err, hash){
+    // console.log('b');
     user.password = hash;
     user.save(function(err, user){
+      // console.log('c');
       if(err){
+        // console.log('d bad');
         res.send({status: 'error'});
       } else{
+        // console.log('d good');
         res.send({status: 'ok'});
       }
     });
@@ -29,10 +34,15 @@ exports.create = function(req, res){
  */
 
 exports.login = function(req, res){
+  console.log(req.body.email);
   User.findOne({email: req.body.email}, function(err, user){
+    console.log('a');
+    console.log(user);
     if(user){
+      console.log('b');
       bcrypt.compare(req.body.password, user.password, function(err, result) {
         if(result){
+          console.log('c good');
           req.session.regenerate(function(err){
             req.session.userId = user.id;
             req.session.save(function(err){
@@ -42,6 +52,7 @@ exports.login = function(req, res){
 
         }
         else{
+          console.log('c bad');
           req.session.destroy(function(err){
             res.send({status:'error'});
           });

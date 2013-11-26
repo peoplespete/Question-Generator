@@ -43,7 +43,7 @@ app.get('/admin', middleware.isAdmin, users.admin);
 app.delete('/admin/:id', users.delete);
 app.put('/admin/:id', users.toggleAdmin);
 //response routes
-app.post('/response', responses.create);
+app.post('/response', responses.grade);
 
 // start server & socket.io
 var common = require('./sockets/common');
