@@ -52,7 +52,7 @@ exports.displayTeacherDesign = function(req, res){
 // PUT /input
 
 exports.addHowToScore = function(req, res){
-  //console.log(req.body);
+  console.log(req.body);
   Question.findById(req.body.id, function(err, question){
     question.howToSolve = req.body.howToSolve;
     question.save(function(err, question){
