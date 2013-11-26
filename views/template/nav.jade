@@ -2,14 +2,16 @@
  nav.top-bar
    ul.title-area
      li.name
-       h1: a(href="/") Grade-a-tron-3000v2
+       h1: a(href="/") Grade-a-tron 3000v2
      li.toggle-topbar.menu-icon
        a(href="#")
          span Menu
    section.top-bar-section
-     ul.left
-        //- li.has-form: a.button.radius(href="/input") Input
-        //- li.has-form: a.button.radius(href="/use") Use
+    if user
+      if user.isAdmin
+        ul.left
+          //- li.has-form: a.button.radius(href="/input") Input
+          li.has-form: a.button.radius(href="/admin") User Control
      ul.right
        li.divider
        if user

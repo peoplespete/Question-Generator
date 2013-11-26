@@ -1,0 +1,50 @@
+extends ../template/layout
+
+block content
+  #content
+    if user1
+      .row
+        .small-12.columns
+          h1 #{user.username}'s Results
+          table#resultsTable
+            thead
+              tr
+                th User
+                each question in questions
+                  th= question.text
+                th Score
+            tbody
+              tr
+                td= user.username
+                each response in responses
+                  if response.isCorrect === 1
+                    td.correct= response.userAnswer
+                  else if response.isCorrect === 0
+                    td.wrong= response.userAnswer
+                  else
+                    td= response.userAnswer
+                td #{numCorrect}/#{questions.length}
+    else if userMany
+      .row
+        .small-12.columns
+          h1 #{assessment.instructions} Results
+          table#resultsTable
+            thead
+              tr
+                th User
+                each question in questions
+                  th= question.text
+                th Score
+            tbody
+              each user in userMany
+                tr
+                  td= user.username
+                  each response in responses
+                    if response.user === user
+                      if response.isCorrect === 1
+                        td.correct
+                      else if response.isCorrect === 0
+                        td.wrong
+                      else
+                        td
+                  td #{user.score}/#{questions.length}

@@ -29,7 +29,7 @@ exports.grade = function(req, res){
         response.userAnswer = req.body.response;
         response.save(function(err, response){
           // console.log(response);
-          res.send({response:response, numberOfQuestions:questions.length});
+          res.send({response:response, numberOfQuestions:questions.length, user: res.locals.user.id});
         });
       });
     });

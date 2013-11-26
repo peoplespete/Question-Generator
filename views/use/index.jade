@@ -23,17 +23,14 @@ block content
                       li: a(href='/use/assessment/' + assessment.id + '/' + index, id=index )= index+1
             if question
               h6 #{question.index+1}. #{question.text}
-              if response.isCorrect === 2
+              if response.isCorrect === 0
+                input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
+              else if response.isCorrect === 1
+                input#response.correct(type='text', placeholder= response.userAnswer, disabled: disabled)
+              else if response.isCorrect === 2
+                //- p= response
                 input#response(type='text', autofocus= true)
-              else
-                //- p= response
-                if response.isCorrect === 0
-                  input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
-                else if response.isCorrect === 1
-                  input#response.correct(type='text', placeholder= response.userAnswer, disabled: disabled)
-              if response.isCorrect === 2
-                //- p= response
-                #submitResponse.button.small.radius.success(data-question-id=question.id) Submit
+                input#submitResponse.button.small.radius.success(type='button', data-question-id=question.id, value= 'Submit')
           else
             form(action='/use/assessment/' + assessment.id + '/0', method= 'get')
               button#startAssessment.button.small.radius.success(type='submit') Start your Assessment

@@ -13,6 +13,7 @@ var build = require('./routes/build');
 var assess = require('./routes/assess');
 var users = require('./routes/users');
 var responses = require('./routes/responses');
+var results = require('./routes/results');
 
 var app = express();
 var RedisStore = require('connect-redis')(express);
@@ -44,6 +45,9 @@ app.delete('/admin/:id', users.delete);
 app.put('/admin/:id', users.toggleAdmin);
 //response routes
 app.post('/response', responses.grade);
+//results routes
+app.get('/results/:assessment', middleware.isAdmin, results.showResults)
+app.get('/results/:assessment/:user', results.showResultsForUser)
 
 // start server & socket.io
 var common = require('./sockets/common');

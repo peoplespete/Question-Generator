@@ -366,9 +366,14 @@ function response(){
 }
 
 function clickSubmitResponse(){
+  var response = parseFloat($('#response').val());
+  if(isNaN(response)){
+    alert('That is not a valid response.');
+    $('#response').val('').focus();
+    return;
+  }
   $('#response').attr('disabled','disabled');
   $('#submitResponse').off('click').addClass('disabled').fadeOut(500);
-  var response = parseFloat($('#response').val());
   console.log(response);
   var question = $('#submitResponse').attr('data-question-id');
   // sendAjaxRequest(url, data, verb, altVerb, event, successFn)
@@ -385,7 +390,11 @@ function clickSubmitResponse(){
     if(data.numberOfQuestions > data.response.index+1){
       window.location.href = '/use/assessment/'+data.response.assessment+'/'+(data.response.index+1);
     }
-    //here in a seperate if look at length of .correct/.wrong added and compare to numofquestions and send to results page
+    var numberDone = $('a.correct, a.wrong').length;
+    // console.log(numberDone);
+    if(data.numberOfQuestions === numberDone){
+      window.location.href = '/results/'+data.response.assessment+'/'+data.user;
+    }
   });
 
 }

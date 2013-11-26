@@ -2,32 +2,37 @@ extends ../template/layout
 
 block content
   #content
-    h3 Teacher Assessment Design Conservatory
-    #instructions= assessment.instructions
-    if question
-      #question(data-id=question.id)
-            #qText= question.text
-            .row
-              .small-8.columns
-                #calculator
-                  #past
-                  #present
-                  #saveSolution.button.radius.small.success Save
-              .small-4.columns
-                #future
-                  #add.operator.button +
-                  #subtract.operator.button -
-                  #multiply.operator.button *
-                  #divide.operator.button /
-                  #openParens.operator.button (
-                  #closeParens.operator.button )
-                  #backspace.button.alert <-
-                  #nums
-                    each number, i in question.numbersActual
-                      .number.button(data-num=i)= number
-    else
-      h3 Great work!  All of your questions have been saved.
-      h3 Your assessment key is #{assessment.id}.
+    .row
+      .small-12.columns
+        h3 Teacher Assessment Design Conservatory
+        h3#instructions.subheader= assessment.instructions
+        if question
+          #question(data-id=question.id)
+          #qText= question.text
+          .row
+            .small-8.columns
+              #calculator
+                #past
+                #present
+                #saveSolution.button.radius.small.success Save
+            .small-4.columns
+              #future
+                #add.operator.button +
+                #subtract.operator.button -
+                #multiply.operator.button *
+                #divide.operator.button /
+                #openParens.operator.button (
+                #closeParens.operator.button )
+                #backspace.button.alert <-
+                #nums
+                  each number, i in question.numbersActual
+                    .number.button(data-num=i)= number
+        else
+          .row
+            .small-12.columns
+              h3 Great work!  All of your questions have been saved.
+              h3 Your assessment key is #{assessment.id}.
+              a#goToResults.button.small.radius(href='/results/'+assessment.id) See Results
 
 
 
