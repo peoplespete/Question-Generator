@@ -36,58 +36,50 @@ exports.showInstructions = function(req, res){
 
 //GET /use/assessment/:id/:question
 
+
 exports.showQuestion = function(req, res){
-  // //console.log(req.params);
-          // console.log('found your question');
-  Assessment.findById(req.params.id, function(err, assessment){
+ Assessment.findById(req.params.id, function(err, assessment){
     Question.find().where({assessment:assessment.id}).exec(function(err, questions){
-      questions = __.sortBy(questions, function(q){
-            return q.index;
-      });
+      questions = __.sortBy(questions, function(q){return q['index'];});
       // console.log(questions);
-      var question;//something is wrong here.  question is not being found here
+      var question;
       for(var i = 0; i < questions.length; i++) {
         //console.log('questions[i]...'+ questions[i].index + '    req.params...'+req.params.question);
         if (parseInt(questions[i].index) === parseInt(req.params.question)) {
           question = questions[i];
-          console.log('found your question');
+          // console.log('found your question...' + question);
           break;
         }
       }
-      console.log('question...'+ question);
+      // console.log('question...'+ question);
       Response.find().where({user:res.locals.user.id}).exec(function(err, responses){
-        console.log('your responses....'+ responses);
+        // console.log('your responses....'+ responses);
         var response;
         for(var i = 0; i < responses.length; i++){
           // console.log('response[i].question....'+responses[i].question);
           // console.log('question.id....'+question.id);
-          if(responses[i].question = question.id){
+          if(responses[i].question == question.id){
             response = responses[i];
+            // console.log('assigning...');
           }
         }
-        console.log('found response.....' + response);
+        // console.log('found response.....' + response);
         Response.find().where({assessment:assessment.id, user:res.locals.user}).exec(function(err, allResponses){
-          console.log('allResponses....' + allResponses);
-          allResponses = __.sortBy(allResponses, function(r){
-            return r.index;
-          });
+          // console.log('allResponses....' + allResponses);
+          allResponses = __.sortBy(allResponses, function(r){return r.index;});
+          // console.log('allResponses..SORTED..' + allResponses);
           for(var i = 0; i<questions.length; i++){
             if(!allResponses[i] || (questions[i].index !== allResponses[i].index)){
               var dummy = allResponses.splice(i, 0, {});
             }
           }
+          // console.log('allResponses..SORTED..empty added..' + allResponses);
+
           if(response){
             // //console.log('already got some');
-            if(response.length>1){
-              console.log('oh crap...too many responses for this one');
-            }
             for(var i = 0 ; i<response.numbers.length; i++){
               question.text = question.text.replace('~' + i + '~', response.numbers[i]);
             }
-
-            //PUT IN THEIR ANSWER UPON REFRESH(IN HERE)
-            //it also needs to make sure that the responses it finds are for the current user!!!
-            //IT SEEMS TO STILL CREATE MORE RESPONSES than are needed (try switching users and you get more responses i think)
             res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question, responses:allResponses, response:response});
           }else{
             // //console.log('dont have any');
@@ -115,7 +107,7 @@ exports.showQuestion = function(req, res){
               index: question.index
               }
             new Response(r).save(function(err, response){
-              console.log('made a new one .............' + response);
+              // console.log('made a new one .............' + response);
               res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question, responses:allResponses, response:response});
             });
           }

@@ -372,16 +372,20 @@ function clickSubmitResponse(){
   console.log(response);
   var question = $('#submitResponse').attr('data-question-id');
   // sendAjaxRequest(url, data, verb, altVerb, event, successFn)
+  // console.log('question #:'+question);
   sendAjaxRequest('/response', {response:response, question:question}, 'post', null, null, function(data){
     console.log(data);
-    if(data.isCorrect===1){
+    if(data.response.isCorrect===1){
       $('#response').addClass('correct');
-      $('#'+data.index).addClass('correct');
+      $('#'+data.response.index).addClass('correct');
     }else{
       $('#response').addClass('wrong');
-      $('#'+data.index).addClass('wrong');
-
+      $('#'+data.response.index).addClass('wrong');
     }
+    if(data.numberOfQuestions > data.response.index+1){
+      window.location.href = '/use/assessment/'+data.response.assessment+'/'+(data.response.index+1);
+    }
+    //here in a seperate if look at length of .correct/.wrong added and compare to numofquestions and send to results page
   });
 
 }

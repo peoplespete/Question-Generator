@@ -16,20 +16,20 @@ exports.grade = function(req, res){
     Question.find().where({assessment:quest.assessment}).exec(function(err, questions){
       Response.findOne({question:quest.id, user:res.locals.user}).exec(function(err, response){
         var isCorrect;
-        console.log(response);
+        // console.log(response);
         //it doesn't understand .correct answer!!!! why not?
-        if(withinPercent(req.body.response, response[0].correctAnswer, defaultPercentRange)){
+        if(withinPercent(req.body.response, response.correctAnswer, defaultPercentRange)){
           // console.log('You got it!');
           isCorrect = 1;
         }else{
           // console.log('You  DONT got it!');
           isCorrect = 0;
         }
-        response[0].isCorrect = isCorrect;
-        response[0].userAnswer = req.body.response;
-        response[0].save(function(err, response){
+        response.isCorrect = isCorrect;
+        response.userAnswer = req.body.response;
+        response.save(function(err, response){
           // console.log(response);
-          res.send(response);
+          res.send({response:response, numberOfQuestions:questions.length});
         });
       });
     });
