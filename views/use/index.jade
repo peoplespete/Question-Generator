@@ -2,9 +2,9 @@ extends ../template/layout
 
 block content
   #content
-    .row
-      .small-12.columns
-        if assessment
+    if assessment
+      .row
+        .small-12.columns
           h3= assessment.instructions
           if questions
             .pagination-centered
@@ -21,24 +21,29 @@ block content
                       li: a.activePage(href='/use/assessment/' + assessment.id + '/' + index, id=index )= index+1
                     else
                       li: a(href='/use/assessment/' + assessment.id + '/' + index, id=index )= index+1
-            if question
-              h6 #{question.index+1}. #{question.text}
-              if response.isCorrect === 0
-                input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
-              else if response.isCorrect === 1
-                input#response.correct(type='text', placeholder= response.userAnswer, disabled: disabled)
-              else if response.isCorrect === 2
-                //- p= response
-                input#response(type='text', autofocus= true)
-                input#submitResponse.button.small.radius.success(type='button', data-question-id=question.id, value= 'Submit')
-          else
-            form(action='/use/assessment/' + assessment.id + '/0', method= 'get')
-              button#startAssessment.button.small.radius.success(type='submit') Start your Assessment
-        else
-          form(action='/use/assessment', method= 'get')
-            label(name= 'assessmentKey') Enter Your Assessment Key
-            input#whichAssessment(type= 'text', name= 'assessmentKey')
-            button#findAssessment.button.small.radius.success(type='submit') Take My Assessment
+      if question
+        .row
+          .small-12.columns
+            h6 #{question.index+1}. #{question.text}
+            if response.isCorrect === 0
+              input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
+            else if response.isCorrect === 1
+              input#response.correct(type='text', placeholder= response.userAnswer, disabled: disabled)
+            else if response.isCorrect === 2
+              //- p= response
+              input#response(type='text', autofocus= true)
+              input#submitResponse.button.small.radius.success(type='button', data-question-id=question.id, value= 'Submit')
+        #draw
+          input#clearCanvas.button.small.radius.right(type='button', value= 'Clear')
+          canvas#simple_sketch(height= '500')
+      else
+        form(action='/use/assessment/' + assessment.id + '/0', method= 'get')
+          button#startAssessment.button.small.radius.success(type='submit') Start your Assessment
+    else
+      form(action='/use/assessment', method= 'get')
+        label(name= 'assessmentKey') Enter Your Assessment Key
+        input#whichAssessment(type= 'text', name= 'assessmentKey')
+        button#findAssessment.button.small.radius.success(type='submit') Take My Assessment
 
 
 

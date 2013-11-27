@@ -207,12 +207,21 @@ function evaluate(){
 
 function use(){
   // initialize
-
+  startCanvas();
+  $('#clearCanvas').on('click',clickClearCanvas);
 }
 
-function clickFindAssessment(e){
-
+function startCanvas(){
+  $(function() {
+      $('#simple_sketch').sketch({defaultColor: "#BF5FFF"});
+    });
 }
+
+function clickClearCanvas(){
+  $('#simple_sketch').sketch().actions = [];
+  $('#simple_sketch').sketch().redraw();
+}
+
 
 
 
