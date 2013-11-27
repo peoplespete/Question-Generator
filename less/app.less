@@ -1,4 +1,5 @@
 @base: #AABFF3;
+@overBodyColor: rgba(220,220,220,.7);
 
 .hidden{
   display: none;
@@ -16,22 +17,58 @@ body{
     -moz-box-shadow: 0px 5px 10px #222222;
     box-shadow: 0px 5px 10px #222222;
   }
+#whoAreYou{
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  #teacher{
+    width: 45%;
+    float:left;
+    // height: 200px;
+  }
+  #student{
+    width: 45%;
+    float:right;
+  }
+  #authentication{
+    display: none;
+  }
+
+}
   #content{
     margin-top: 50px;
   }
 }
-
+.qText{
+  margin-bottom: 20px;
+  font-weight: bold;
+}
 #calculator{
-  background-color: rgba(150,150,150,0.7);
 
-  #past{
+  #past, #present{
+    background-color: @overBodyColor;
     height: 80px;
+    margin-bottom: 20px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    font-size: 40px;
+    padding: 20px 20px;
     // overflow:scroll;
   }
-  #present{
-    height: 80px;
-  }
   #future{
+    .button{
+      margin-left: 1%;
+      font-size: 2em;
+      // width: 10%;
+      // padding: 6%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      height:50px;
+    }
+    #e{
+      font-style: italic;
+    }
 
   }
 }
@@ -49,26 +86,20 @@ body{
   font-weight: bold;
 }
 
-#whoAreYou{
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  img{
-    widows: 200px;
-    height: 200px;
-  }
-  #authentication{
-    display: none;
-  }
-
-}
 #clearCanvas{
   margin-right: 2%;
 }
 canvas{
-  background-color: rgba(220,220,220,.7);
+  background-color: @overBodyColor;
   // -webkit-border-radius: 10px;
   // -moz-border-radius: 10px;
   // border-radius: 10px;
   width: 100%;
+}
+
+#registration-form{
+  background: transparent;
+  legend{
+    background: transparent;
+  }
 }

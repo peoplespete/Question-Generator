@@ -24,7 +24,7 @@ block content
       if question
         .row
           .small-12.columns
-            h6 #{question.index+1}. #{question.text}
+            h4.qText #{question.index+1}. #{question.text}
             if response.isCorrect === 0
               input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
             else if response.isCorrect === 1
@@ -37,13 +37,17 @@ block content
           input#clearCanvas.button.small.radius.right(type='button', value= 'Clear')
           canvas#simple_sketch(height= '500')
       else
-        form(action='/use/assessment/' + assessment.id + '/0', method= 'get')
-          button#startAssessment.button.small.radius.success(type='submit') Start your Assessment
+        .row
+          .small-12.columns
+            form(action='/use/assessment/' + assessment.id + '/0', method= 'get')
+              button#startAssessment.button.small.radius.success(type='submit') Start your Assessment
     else
-      form(action='/use/assessment', method= 'get')
-        label(name= 'assessmentKey') Enter Your Assessment Key
-        input#whichAssessment(type= 'text', name= 'assessmentKey')
-        button#findAssessment.button.small.radius.success(type='submit') Take My Assessment
+      .row
+        .small-12.columns
+          form(action='/use/assessment', method= 'get')
+            label(name= 'assessmentKey') Enter Your Assessment Key
+            input#whichAssessment(type= 'text', name= 'assessmentKey', autofocus= true)
+            button#findAssessment.button.small.radius.success(type='submit') Take My Assessment
 
 
 

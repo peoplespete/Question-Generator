@@ -8,25 +8,32 @@ block content
         h3#instructions.subheader= assessment.instructions
         if question
           #question(data-id=question.id)
-            #qText= question.text
-            .row
-              .small-8.columns
-                #calculator
+            h4.qText= question.text
+            #calculator
+              .row
+                .small-8.columns
                   #past
                   #present
                   #saveSolution.button.radius.small.success Save
-              .small-4.columns
-                #future
-                  #add.operator.button +
-                  #subtract.operator.button -
-                  #multiply.operator.button *
-                  #divide.operator.button /
-                  #openParens.operator.button (
-                  #closeParens.operator.button )
-                  #backspace.button.alert <-
-                  #nums
-                    each number, i in question.numbersActual
-                      .number.button(data-num=i)= number
+                .small-4.columns
+                  #future
+                    .row
+                      #add.operator.button.radius(data-value='+') +
+                      #subtract.operator.button.radius(data-value='-') -
+                      #multiply.operator.button.radius(data-value='*') x
+                      #divide.operator.button.radius(data-value='/') /
+                    .row
+                      #openParens.operator.button.radius(data-value='(') (
+                      #closeParens.operator.button.radius(data-value=')') )
+                      #backspace.button.alert.radius &larr;
+                    .row
+                      #nums
+                        each number, i in question.numbersActual
+                          .number.button.radius(data-num=i, data-value=number)= number
+                    .row
+                      #mathConstants
+                        #pi.button.radius.number(data-value='3.14') &pi;
+                        #e.button.radius.number(data-value='2.72') e
         else
           .row
             .small-12.columns

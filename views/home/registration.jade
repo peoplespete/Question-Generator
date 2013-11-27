@@ -1,0 +1,11 @@
+form#registration-form.hidden(action='/', method='post')
+  fieldset
+    legend Sign Up
+    .row
+      //- mixin field(colSize, type, name, text, value, placeholder, autofocus)
+      mixin field(4, 'text', 'username', 'Username')
+      mixin field(4, 'password', 'password', 'Password')
+      mixin field(4, 'text', 'email', 'Email Address')
+    .row
+      .small-3.small-offset-9.columns
+        button.signUp.radius.success.tiny.expand Register

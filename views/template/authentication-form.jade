@@ -1,11 +1,10 @@
 form.authentication.hidden(action='/', method='post')
   fieldset
-    legend Authentication
+    legend Login | Sign Up
     .row
       //- mixin field(colSize, type, name, text, value, placeholder, autofocus)
-      mixin field(4, 'text', 'username', 'Username')
-      mixin field(4, 'text', 'email', 'Email Address')
-      mixin field(4, 'password', 'password', 'Password')
+      mixin field(6, 'text', 'username', 'Username')
+      mixin field(6, 'password', 'password', 'Password')
     .row
       .small-3.small-offset-6.columns
         button.register.radius.success.tiny.expand Register

@@ -8,19 +8,19 @@ var bcrypt = require('bcrypt');
 
 exports.create = function(req, res){
   var user = new User();
-  // console.log('a');
+  console.log('a');
   user.username = req.body.username;
   user.email = req.body.email;
   bcrypt.hash(req.body.password, 10, function(err, hash){
-    // console.log('b');
+    console.log('b');
     user.password = hash;
     user.save(function(err, user){
-      // console.log('c');
+      console.log('c');
       if(err){
-        // console.log('d bad');
+        console.log('d bad');
         res.send({status: 'error'});
       } else{
-        // console.log('d good');
+        console.log('d good');
         res.send({status: 'ok'});
       }
     });
@@ -34,8 +34,8 @@ exports.create = function(req, res){
  */
 
 exports.login = function(req, res){
-  console.log(req.body.email);
-  User.findOne({email: req.body.email}, function(err, user){
+  console.log(req.body.username);
+  User.findOne({username: req.body.username}, function(err, user){
     console.log('a');
     console.log(user);
     if(user){

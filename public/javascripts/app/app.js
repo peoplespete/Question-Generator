@@ -13,7 +13,6 @@ var defaultDecimalPoints = 2;
 
 function initialize(){
   $(document).foundation();
-  $('#whoAreYou').foundation('reveal', 'open', '/');
 
   initializeSocketIO();
   //input
@@ -42,10 +41,10 @@ function input(){
 function handleFileSelect(evt) {
   f = evt.target.files[0]; // FileList object
   // files is a FileList of File objects. List some properties.
-  var $output = $('<ol><li><strong>' + f.name + '</strong> (' + (f.type || 'n/a') + ') - ' +
-                f.size + ' bytes, last modified: ' +
+  var $output = $('<div><strong>' + f.name + '</strong> (' + (f.type || 'n/a') + ') - ' +
+                roundToDecimals(f.size/1024,2) + ' kB, last modified: ' +
                 (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a') +
-                '</li></ol>');
+                '</div>');
   console.log(f);
   $('#fileList').append($output);
   var reader = new FileReader();
@@ -67,7 +66,7 @@ function clickUpload(){
     console.log(data);
     // $('#upload').removeClass('disabled').on('click', clickUpload);
     $('#designAssessment').attr('href','/input/'+ data._id);
-    $('#designAssessment').show();
+    $('#designAssessment').show().removeClass('hidden');
   });
 
 }
@@ -154,7 +153,7 @@ function clickOperatorOrNum(){
   var isNum = $(this).hasClass('number');
   // console.log(isNum);
   var expression = $('#past').text();
-  var nextChar = $(this).text();
+  var nextChar = $(this).attr('data-value');
   $('#past').text(expression + nextChar);
   if(isNum){
     nextChar = '~' + $(this).attr('data-num');
@@ -197,7 +196,12 @@ function evaluate(){
   }catch(e){
     expression = '-----';
   }
-  $('#present').text(expression);
+  // console.log(expression);
+  if(expression !== undefined){
+    $('#present').text(expression);
+  }else{
+    $('#present').text('');
+  }
   // console.log(genericExpression);
 
 }
@@ -235,9 +239,11 @@ function clickClearCanvas(){
 //you should clean it up so that you never use hidden class!
 function login(){
 // initialize
+  $('#whoAreYou').foundation('reveal', 'open');
   $('.authentication').hide().addClass('hidden');
   $('#authentication-button').on('click', clickLoginSignUp);
-  $('.register').on('click', clickSignUp);
+  $('.register').on('click', clickRegisterOnly);
+  $('.signUp').on('click', clickSignUp);
   $('.login').on('click', clickLogin);
   $('table#adminList').on('click','input[type="checkbox"]', toggleAdminStatus);
   $('#teacher, #student').on('click', clickTeacherOrStudent);
@@ -267,20 +273,46 @@ function clickLoginSignUp(e){
   }
 
 }
+function clickRegisterOnly(e){
+  $('#whoAreYou').foundation('reveal', 'close');
+  $('#registration-form').removeClass('hidden');
+  $('#registration-form input[name="username"]').val($('.authentication input[name="username"]').val());
+  $('#registration-form input[name="password"]').val($('.authentication input[name="password"]').val());
+  $('#registration-form input[name="email"]').focus();
+  $('.authentication input[name="username"]').val('');
+  $('.authentication input[name="password"]').val('');
+  e.preventDefault();
+}
 
 function clickSignUp(e){
-  $('.register').hide()
+  $('.register').hide();
   var url = '/users';
-  var data = $('form.authentication').serialize();
+  var data = $('form#registration-form').serialize();
   console.log(data);
   sendAjaxRequest(url, data, 'post', null, e, function(status){
     htmlCompletedRegistrationAttempt(status, 'registration');
+    url = '/login';
+    // data = $('form#registration-form').serialize();
+    console.log(data);
+    sendAjaxRequest(url, data, 'post', 'put', e, function(data){
+      console.log(data);
+      if(data.status==='ok'){
+        htmlCompletedRegistrationAttempt(data);
+        htmlChangeButtonText(data.username, false);
+        if(isTeacher){
+          window.location.href = '/input';
+        }else{
+          window.location.href = '/use';
+        }
+      }else{
+        htmlCompletedRegistrationAttempt(data, 'login');
+      }
+    });
   });
 }
 
 function clickLogin(e){
   $('#whoAreYou').hide();
-  //CHECK THE THIS TO SEE IF IT IS TEACH OR STUDENT...IF TEACH GO TO INPUT...IF STU GO TO USE
   var url = '/login';
   var data = $('form.authentication').serialize();
   console.log(data);
@@ -337,7 +369,7 @@ function toggleAdminStatus(){
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function htmlCompletedRegistrationAttempt(data, logOrReg){
-  console.log(status);
+  console.log(data);
   $('input[name="username"]').val('').focus();
   $('input[name="email"]').val('');
   $('input[name="password"]').val('');
@@ -349,6 +381,9 @@ function htmlCompletedRegistrationAttempt(data, logOrReg){
     }
   }else{
     alert('There was a problem with your ' + logOrReg + ', please try again.');
+    window.location.href = '/';
+    window.location.reload();
+
   }
 }
 
