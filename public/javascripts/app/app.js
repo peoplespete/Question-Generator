@@ -33,12 +33,12 @@ function initialize(){
 function input(){
   // initialize
   $('#designAssessment').hide().on('click',clickDesignAssessment);
-  checkFileReaderFunctionality();
   $('#file').on('change', handleFileSelect);
   $('#upload').on('click', clickUpload);
 }
 
 function handleFileSelect(evt) {
+  checkFileReaderFunctionality();
   f = evt.target.files[0]; // FileList object
   // files is a FileList of File objects. List some properties.
   var $output = $('<div><strong>' + f.name + '</strong> (' + (f.type || 'n/a') + ') - ' +
@@ -236,7 +236,6 @@ function clickClearCanvas(){
 
 
 //------login-login-login--------------------------------------------------------/
-//you should clean it up so that you never use hidden class!
 function login(){
 // initialize
   $('#whoAreYou').foundation('reveal', 'open');
@@ -266,13 +265,12 @@ function clickLoginSignUp(e){
       $('.authentication').show();
       $('.authentication').hide();
       $('.authentication').addClass('hidden');
-
     }
     $('input[name="username"]').focus();
     window.location.href = '/';
   }
-
 }
+
 function clickRegisterOnly(e){
   $('#whoAreYou').foundation('reveal', 'close');
   $('#registration-form').removeClass('hidden');
@@ -281,6 +279,7 @@ function clickRegisterOnly(e){
   $('#registration-form input[name="email"]').focus();
   $('.authentication input[name="username"]').val('');
   $('.authentication input[name="password"]').val('');
+  $('#content').removeClass('hidden');
   e.preventDefault();
 }
 
@@ -443,85 +442,10 @@ function clickSubmitResponse(){
 
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 //--------------------------------------------------------------------------------/
+///////////////////////////////////////////////////////////////////////////////////
 
-//--------------------------------------------------------------------------------/
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-//--------------------------------------------------------------------------------/
-
-//--------------------------------------------------------------------------------/
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-//--------------------------------------------------------------------------------/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////
 function initializeSocketIO(){
   var port = window.location.port ? window.location.port : '80';
   var url = window.location.protocol + '//' + window.location.hostname + ':' + port + '/app';

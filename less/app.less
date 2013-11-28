@@ -1,4 +1,4 @@
-@base: #AABFF3;
+// @base: #AABFF3;
 @overBodyColor: rgba(220,220,220,.7);
 
 .hidden{
@@ -6,7 +6,10 @@
 }
 
 body{
-  background-color: @base;
+  background-image: url('/images/background.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100%;
   #topBar {
     // overflow: hidden;
     // height: 45px;
@@ -37,9 +40,20 @@ body{
 }
   #content{
     margin-top: 50px;
+    padding-bottom: 20px;
+    background-color: @overBodyColor;
+    // -webkit-border-radius: 10px;
+    // -moz-border-radius: 10px;
+    // border-radius: 10px;
   }
 }
+
+#designAssessment{
+  display: inline-block;;
+}
+
 .qText{
+  margin-top: 20px;
   margin-bottom: 20px;
   font-weight: bold;
 }
@@ -53,7 +67,8 @@ body{
     -moz-border-radius: 10px;
     border-radius: 10px;
     font-size: 40px;
-    padding: 20px 20px;
+    padding: 15px 20px;
+    border: .1em solid #444;
     // overflow:scroll;
   }
   #future{
@@ -72,19 +87,31 @@ body{
 
   }
 }
+
+
+.pagination li a{
+  font-size: 2em;
+  font-weight: bold;
+}
 .activePage{
-  background-color: #ccc !important;
+  background-color: #666 !important;
 }
 
 .correct{
-  background-color: #9e9 !important;
+  background-color: #07a600 !important;
   font-weight: bold;
 }
 
 .wrong{
-  background-color: #e99 !important;
+  background-color: #fc2d3b !important;
   font-weight: bold;
 }
+
+#response, #whichAssessment{
+  font-size: 1.5em;
+  height: 2em;
+}
+
 
 #clearCanvas{
   margin-right: 2%;
@@ -102,4 +129,15 @@ canvas{
   legend{
     background: transparent;
   }
+}
+
+#adminContainer{
+  padding: 20px;
+}
+
+form fieldset{
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border: .15em solid #444;
 }

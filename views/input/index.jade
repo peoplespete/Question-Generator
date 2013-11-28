@@ -4,9 +4,13 @@ block content
   #content
     .row
       .small-12.columns
-        h1 Upload a file...
+        h3 Upload a file...
         input#file(type='file' name='files[]')
-        button#upload.small.radius(href='/input') Upload
-        a#designAssessment.hidden.button.small.success.radius(href='#') Design Assessment
+        .row
+          .small-2.columns
+            a#upload.button.small.radius.expand Upload
+          .small-6.columns
+            a#designAssessment.hidden.button.small.success.radius(href='#') Design Assessment
+          .small-4.columns
         #fileList
 

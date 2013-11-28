@@ -8,7 +8,6 @@ block content
           h3= assessment.instructions
           if questions
             .pagination-centered
-              //- THERE IS STILL SOMETHING GOING ON WITH THE PAGINATION SHOWING CORRECTLY
               ul.pagination
                 each q, index in questions
                   if responses[index].isCorrect === 0
@@ -26,13 +25,23 @@ block content
           .small-12.columns
             h4.qText #{question.index+1}. #{question.text}
             if response.isCorrect === 0
-              input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
+              .row
+                .small-6.columns
+                  input#response.wrong(type='text', placeholder= response.userAnswer, disabled: disabled)
+                .small-6.columns
             else if response.isCorrect === 1
-              input#response.correct(type='text', placeholder= response.userAnswer, disabled: disabled)
+              .row
+                .small-6.columns
+                  input#response.correct(type='text', placeholder= response.userAnswer, disabled: disabled)
+                .small-6.columns
             else if response.isCorrect === 2
               //- p= response
-              input#response(type='text', autofocus= true)
-              input#submitResponse.button.small.radius.success(type='button', data-question-id=question.id, value= 'Submit')
+              .row
+                .small-6.columns
+                  input#response(type='text', autofocus= true)
+                .small-2.columns
+                  input#submitResponse.button.small.radius.success(type='button', data-question-id=question.id, value= 'Submit')
+                .small-4.columns
         #draw
           input#clearCanvas.button.small.radius.right(type='button', value= 'Clear')
           canvas#simple_sketch(height= '500')
@@ -45,7 +54,7 @@ block content
       .row
         .small-12.columns
           form(action='/use/assessment', method= 'get')
-            label(name= 'assessmentKey') Enter Your Assessment Key
+            h3(name= 'assessmentKey') Enter Your Assessment Key
             input#whichAssessment(type= 'text', name= 'assessmentKey', autofocus= true)
             button#findAssessment.button.small.radius.success(type='submit') Take My Assessment
 

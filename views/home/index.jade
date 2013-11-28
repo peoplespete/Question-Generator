@@ -1,18 +1,18 @@
 extends ../template/layout
 
 block content
-  #content
+  #content.hidden
     .row
       .small-12.columns
         include registration
-    #whoAreYou.reveal-modal.small(data-reveal)
-      h3 Who Are You?
-      .row
-        #teacher
-          img(src='/images/teacher.png')
-          h4.subheader Teacher
-        #student
-          img(src='/images/students.png')
-          h4.subheader Student
-      .row
-        include ../template/authentication-form
+  #whoAreYou.reveal-modal.small(data-reveal)
+    h3 Who Are You?
+    .row
+      #teacher
+        img(src='/images/teacher.png')
+        h4.subheader Teacher
+      #student
+        img(src='/images/students.png')
+        h4.subheader Student
+    .row
+      include ../template/authentication-form
