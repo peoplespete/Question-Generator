@@ -273,13 +273,13 @@ function clickLoginSignUp(e){
 
 function clickRegisterOnly(e){
   $('#whoAreYou').foundation('reveal', 'close');
+  $('#content').removeClass('hidden');
   $('#registration-form').removeClass('hidden');
   $('#registration-form input[name="username"]').val($('.authentication input[name="username"]').val());
   $('#registration-form input[name="password"]').val($('.authentication input[name="password"]').val());
   $('#registration-form input[name="email"]').focus();
   $('.authentication input[name="username"]').val('');
   $('.authentication input[name="password"]').val('');
-  $('#content').removeClass('hidden');
   e.preventDefault();
 }
 
