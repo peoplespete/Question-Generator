@@ -5,7 +5,7 @@ block content
     if user1
       .row
         .small-12.columns
-          h1 #{user.username}'s Results
+          h1 #{user1.username}'s Results
           table#resultsTable
             thead
               tr
@@ -15,7 +15,7 @@ block content
                 th Score
             tbody
               tr
-                td= user.username
+                td= user1.username
                 each response in responses
                   if response.isCorrect === 1
                     td.correct= response.userAnswer

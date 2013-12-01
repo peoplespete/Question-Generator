@@ -58,13 +58,19 @@ exports.showResults = function(req, res){
 exports.showResultsForUser = function(req, res){
   console.log(req.params);
   Assessment.findOne(req.params.assessment, function(err, assessment){
-    // console.log(assessment);
+    console.log(assessment);
     Question.find({assessment:assessment.id}, function(err, questions){
       // console.log(questions);
+      questions = __.sortBy(questions, function(q){
+          return [q.index];
+          });
       User.findById(req.params.user, function(err, user){
         // console.log(user);
         Response.find({user:user.id}, function(err, responses){
           // console.log(responses);
+          responses = __.sortBy(responses, function(r){
+          return [r.index];
+          });
           var numCorrect = 0;
           for(var i = 0; i< responses.length; i++){
             if(responses[i].isCorrect === 1){
@@ -73,8 +79,12 @@ exports.showResultsForUser = function(req, res){
             for(var j = 0 ; j<responses[i].numbers.length; j++){
               questions[i].text = questions[i].text.replace('~' + j + '~', responses[i].numbers[j]);
             }
+            // console.log(questions[i].text);
           }
           // console.log('numCorrect:'+numCorrect);
+          console.log(responses);
+          console.log(questions);
+
           res.render('results/index', {title:'Results', assessment:assessment, questions: questions, user1: user, responses: responses, numCorrect: numCorrect});
         });
       });

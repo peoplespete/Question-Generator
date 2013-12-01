@@ -5,6 +5,8 @@ block content
     if assessment
       .row
         .small-12.columns
+          if finished
+            a#seeResultsButton.button.radius.success.small(href= '/results/#{assessment.id}/#{user.id}') Review Results
           h3= assessment.instructions
           if questions
             .pagination-centered

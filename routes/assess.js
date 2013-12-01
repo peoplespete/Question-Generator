@@ -74,13 +74,18 @@ exports.showQuestion = function(req, res){
             }
           }
           // console.log('allResponses..SORTED..empty added..' + allResponses);
-
+          var finished = false;
           if(response){
             // //console.log('already got some');
             for(var i = 0 ; i<response.numbers.length; i++){
               question.text = question.text.replace('~' + i + '~', response.numbers[i]);
             }
-            res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question, responses:allResponses, response:response});
+            if(questions.length === allResponses.length){
+              // you're done show results
+              finished = true;
+            }
+            console.log(finished);
+            res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question, responses:allResponses, response:response, finished: finished, user:res.locals.user});
           }else{
             // //console.log('dont have any');
             var userNums = [];

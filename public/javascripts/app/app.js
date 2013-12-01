@@ -2,19 +2,15 @@
 
 $(document).ready(initialize);
 
-var socket;
+// var socket;
 //Global Variables
-var a = {}; //assessment
-var rawQuestions;
-var questionsText;
-var f;
 var defaultPercentRange = 20;
 var defaultDecimalPoints = 2;
 
 function initialize(){
   $(document).foundation();
 
-  initializeSocketIO();
+  // initializeSocketIO();
   //input
   input();
   //teacherDesign
@@ -29,6 +25,10 @@ function initialize(){
 
 
 //---INPUT INPUT INPUT----------------------------------------------------------/
+var a = {}; //assessment
+var rawQuestions;
+var questionsText;
+var f;
 
 function input(){
   // initialize
@@ -45,7 +45,12 @@ function handleFileSelect(evt) {
                 roundToDecimals(f.size/1024,2) + ' kB, last modified: ' +
                 (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a') +
                 '</div>');
-  console.log(f);
+  // console.log(f);
+  if(!f.name.contains('txt')){
+    alert('Only text files are allowed at this time.')
+    window.location.reload();
+    return;
+  }
   $('#fileList').append($output);
   var reader = new FileReader();
   reader.readAsText(f);
@@ -76,7 +81,7 @@ function clickDesignAssessment(){
   var id = $(this).attr('data-id');
   //sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   sendAjaxRequest('/input', id, 'get', null, null, function(data){
-    console.log(data);
+    // console.log(data);
   });
 }
 
@@ -102,7 +107,7 @@ function buildQuestionObjects(questionsText){
     var question = {};
     question.text = questionsText[i];
     question.numbersActual = parseNumsOutOfQuestion(questionsText[i]);
-    console.log(question);
+    // console.log(question);
     for(var j = 0; j<question.numbersActual.length; j++){
       question.text = question.text.replace(/\d+/,'@@@');
     }
@@ -141,35 +146,39 @@ function generateBounds(num, percentRange, decimalPoints){
 
 function teacherDesign(){
   // initialize
-  $('#future').on('click','.operator, .number', clickOperatorOrNum);
+  $('#future').on('click','.operator, .number, .mathConstant', clickOperatorOrNum);
   $('#future #backspace').on('click', clickBackspace);
   // $('#past').on('change keypress paste textInput input', evaluate);
   $('#saveSolution').on('click', clickSaveSolution);
 }
 
 var genericExpression = [];
+var shownExpression = [];
 
 function clickOperatorOrNum(){
   var isNum = $(this).hasClass('number');
-  // console.log(isNum);
-  var expression = $('#past').text();
+  // var expression = $('#past').text();
   var nextChar = $(this).attr('data-value');
-  $('#past').text(expression + nextChar);
+  shownExpression.push(nextChar);
   if(isNum){
     nextChar = '~' + $(this).attr('data-num');
   }
   genericExpression.push(nextChar);
+  $('#past').text(shownExpression.join(''));
   evaluate();
 }
 
 function clickBackspace(){
-  var expression = $('#past').text();
-  expression = expression.split('');
-  expression.pop();
-  expression = expression.join('');
-  $('#past').text(expression);
+  // var expression = $('#past').text();
+  // expression = expression.split('');
+  // expression.pop();
+  // expression = expression.join('');
+  shownExpression.pop();
+  $('#past').text(shownExpression.join(''));
   genericExpression.pop();
   evaluate();
+  // console.log('SHOWN:' + shownExpression);
+  // console.log('GENERIC:' + genericExpression);
 }
 
 function clickSaveSolution(){
@@ -177,10 +186,10 @@ function clickSaveSolution(){
   var question = {};
   question.id = $(this).closest('#question').attr('data-id');
   question.howToSolve = genericExpression;
-  console.log(question);
+  // console.log(question);
   //sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   sendAjaxRequest('/input', question, 'post', 'put', null, function(data){
-    console.log(data);
+    // console.log(data);
     window.location.reload();
     //make that question disapeared and thing say it is saved
   });
@@ -190,7 +199,7 @@ function clickSaveSolution(){
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function evaluate(){
-  var expression = $('#past').text();
+  var expression = shownExpression.join('');
   try{
     expression = eval(expression);
   }catch(e){
@@ -287,14 +296,14 @@ function clickSignUp(e){
   $('.register').hide();
   var url = '/users';
   var data = $('form#registration-form').serialize();
-  console.log(data);
+  // console.log(data);
   sendAjaxRequest(url, data, 'post', null, e, function(status){
     htmlCompletedRegistrationAttempt(status, 'registration');
     url = '/login';
     // data = $('form#registration-form').serialize();
-    console.log(data);
+    // console.log(data);
     sendAjaxRequest(url, data, 'post', 'put', e, function(data){
-      console.log(data);
+      // console.log(data);
       if(data.status==='ok'){
         htmlCompletedRegistrationAttempt(data);
         htmlChangeButtonText(data.username, false);
@@ -314,9 +323,9 @@ function clickLogin(e){
   $('#whoAreYou').hide();
   var url = '/login';
   var data = $('form.authentication').serialize();
-  console.log(data);
+  // console.log(data);
   sendAjaxRequest(url, data, 'post', 'put', e, function(data){
-    console.log(data);
+    // console.log(data);
     if(data.status==='ok'){
       htmlCompletedRegistrationAttempt(data);
       htmlChangeButtonText(data.username, false);
@@ -358,7 +367,7 @@ function clickTeacherOrStudent(e){
 function toggleAdminStatus(){
   var url = '/admin/' + $(this).attr('data-id');
   // var id = $(this).attr('data-id');
-  console.log(url);
+  // console.log(url);
   sendAjaxRequest(url, {}, 'post', 'put', null, function(data){
     //$('table#adminList input[data-id='+id+']').attr('checked', data.isAdmin);
   });
@@ -368,7 +377,7 @@ function toggleAdminStatus(){
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function htmlCompletedRegistrationAttempt(data, logOrReg){
-  console.log(data);
+  // console.log(data);
   $('input[name="username"]').val('').focus();
   $('input[name="email"]').val('');
   $('input[name="password"]').val('');
@@ -417,12 +426,12 @@ function clickSubmitResponse(){
   }
   $('#response').attr('disabled','disabled');
   $('#submitResponse').off('click').addClass('disabled').fadeOut(500);
-  console.log(response);
+  // console.log(response);
   var question = $('#submitResponse').attr('data-question-id');
   // sendAjaxRequest(url, data, verb, altVerb, event, successFn)
   // console.log('question #:'+question);
   sendAjaxRequest('/response', {response:response, question:question}, 'post', null, null, function(data){
-    console.log(data);
+    // console.log(data);
     if(data.response.isCorrect===1){
       $('#response').addClass('correct');
       $('#'+data.response.index).addClass('correct');
@@ -455,7 +464,7 @@ function initializeSocketIO(){
 }
 
 function socketConnected(data){
-  console.log(data);
+  // console.log(data);
 }
 
 function checkFileReaderFunctionality(){
