@@ -65,10 +65,10 @@ function clickUpload(){
   questionsText = _.map(questionsText, function(q){return q.trim();});
   questionsText = removeInstructionsFromQuestionArray(questionsText);
   a.questions = buildQuestionObjects(questionsText);
-  console.log(a.questions);
+  // console.log(a.questions);
   //sendAjaxRequest(url, data, verb, altVerb, event, successFn){
   sendAjaxRequest('/input', a, 'post', null, null, function(data){
-    console.log(data);
+    // console.log(data);
     // $('#upload').removeClass('disabled').on('click', clickUpload);
     $('#designAssessment').attr('href','/input/'+ data._id);
     $('#designAssessment').show().removeClass('hidden');
@@ -146,7 +146,7 @@ function generateBounds(num, percentRange, decimalPoints){
 
 function teacherDesign(){
   // initialize
-  $('#future').on('click','.operator, .number, .mathConstant', clickOperatorOrNum);
+  $('#future').on('click','.operator, .number, .standardNumbers, .mathConstant', clickOperatorOrNum);
   $('#future #backspace').on('click', clickBackspace);
   // $('#past').on('change keypress paste textInput input', evaluate);
   $('#saveSolution').on('click', clickSaveSolution);

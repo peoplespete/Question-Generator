@@ -84,7 +84,7 @@ exports.showQuestion = function(req, res){
               // you're done show results
               finished = true;
             }
-            console.log(finished);
+            // console.log(finished);
             res.render('use/index', {title: 'Express', assessment: assessment, questions: questions, question: question, responses:allResponses, response:response, finished: finished, user:res.locals.user});
           }else{
             // //console.log('dont have any');

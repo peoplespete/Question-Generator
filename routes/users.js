@@ -8,19 +8,19 @@ var bcrypt = require('bcrypt');
 
 exports.create = function(req, res){
   var user = new User();
-  console.log('a');
+  // console.log('a');
   user.username = req.body.username;
   user.email = req.body.email;
   bcrypt.hash(req.body.password, 10, function(err, hash){
-    console.log('b');
+    // console.log('b');
     user.password = hash;
     user.save(function(err, user){
-      console.log('c');
+      // console.log('c');
       if(err){
-        console.log('d bad');
+        // console.log('d bad');
         res.send({status: 'error'});
       } else{
-        console.log('d good');
+        // console.log('d good');
         res.send({status: 'ok'});
       }
     });
@@ -34,15 +34,15 @@ exports.create = function(req, res){
  */
 
 exports.login = function(req, res){
-  console.log(req.body.username);
+  // console.log(req.body.username);
   User.findOne({username: req.body.username}, function(err, user){
-    console.log('a');
-    console.log(user);
+    // console.log('a');
+    // console.log(user);
     if(user){
-      console.log('b');
+      // console.log('b');
       bcrypt.compare(req.body.password, user.password, function(err, result) {
         if(result){
-          console.log('c good');
+          // console.log('c good');
           req.session.regenerate(function(err){
             req.session.userId = user.id;
             req.session.save(function(err){
@@ -52,7 +52,7 @@ exports.login = function(req, res){
 
         }
         else{
-          console.log('c bad');
+          // console.log('c bad');
           req.session.destroy(function(err){
             res.send({status:'error'});
           });
@@ -122,10 +122,10 @@ exports.delete = function(req, res){
 
 exports.toggleAdmin = function(req, res){
   User.findById(req.params.id, function(err, user){
-    console.log(user);
+    // console.log(user);
     user.isAdmin = user.isAdmin === false;
     user.save(function(err, user){
-      console.log(user);
+      // console.log(user);
       res.send({isAdmin: user.isAdmin});
     });
   });

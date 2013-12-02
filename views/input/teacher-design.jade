@@ -31,6 +31,10 @@ block content
                         each number, i in question.numbersActual
                           .number.button.radius(data-num=i, data-value=number)= number
                     .row
+                      #standardNumbers
+                        each number in [0,1,2,3,4,5,6,7,8,9]
+                          .button.radius.standardNumbers(data-value=number)= number
+                    .row
                       #mathConstants
                         #pi.button.radius.mathConstant(data-value='3.14') &pi;
                         #e.button.radius.mathConstant(data-value='2.72') e

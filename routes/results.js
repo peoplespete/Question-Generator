@@ -36,14 +36,14 @@ exports.showResults = function(req, res){
         var numCorrect = 0;
         for(var i = 0; i < users.length; i++){
           for(var j = 0; j< responses.length; j++){
-            console.log('response.user' + responses[j].user.id + '   user.id:' + users[i].id);
+            // console.log('response.user' + responses[j].user.id + '   user.id:' + users[i].id);
             if(responses[j].user.id == users[i].id){
               if(responses[j].isCorrect === 1){
                 numCorrect++;
               }
             }
           }
-        console.log(users[i].username + ' numCorrect:'+numCorrect);
+        // console.log(users[i].username + ' numCorrect:'+numCorrect);
         users[i].score = numCorrect;
         numCorrect = 0;
         }
@@ -56,9 +56,9 @@ exports.showResults = function(req, res){
 
 //GET /results/:assessment/:user
 exports.showResultsForUser = function(req, res){
-  console.log(req.params);
+  // console.log(req.params);
   Assessment.findOne(req.params.assessment, function(err, assessment){
-    console.log(assessment);
+    // console.log(assessment);
     Question.find({assessment:assessment.id}, function(err, questions){
       // console.log(questions);
       questions = __.sortBy(questions, function(q){
@@ -72,7 +72,7 @@ exports.showResultsForUser = function(req, res){
           return [r.index];
           });
           var numCorrect = 0;
-          for(var i = 0; i< responses.length; i++){
+          for(var i = 0; i< questions.length; i++){
             if(responses[i].isCorrect === 1){
               numCorrect++;
             }
@@ -82,9 +82,8 @@ exports.showResultsForUser = function(req, res){
             // console.log(questions[i].text);
           }
           // console.log('numCorrect:'+numCorrect);
-          console.log(responses);
-          console.log(questions);
-
+          // console.log(responses);
+          // console.log(questions);
           res.render('results/index', {title:'Results', assessment:assessment, questions: questions, user1: user, responses: responses, numCorrect: numCorrect});
         });
       });
