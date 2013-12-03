@@ -26,4 +26,3 @@ This web app is designed for teachers and students.  It is to be used as follows
 
 Additional Resources
 I've added a file called [testing12testing12.txt](/testing12testing12.txt) which you can use to check out the software's features without actually creating a file yourself.
-![alt tag](https://raw.github.com/peoplespete/Question-Generator/master/testing12testing12.txt)
