@@ -1,0 +1,11 @@
+A Few Simple Problems for Programmers
+
+1.Elmer takes his dog, Otis, for a walk most days.  One February, he walks Otis 20 times.  How many days did he forget to walk Otis in February?
+
+2.Bobo is on the prowl.  He is hunting baby squirrels.  Each baby squirrel gives him 3 units of energy.  Occasionally Bobo accidentally eats his own young.  Each child eaten takes away 5 units of energy.  If Bobo eats 2 baby squirrels and 5 of his own children, what is his change in energy?
+
+3.Evan draws a circle of diameter 3 units.  What is the circumference of the circle?	
+
+4.Angelica loves glitter.  That said, the recession is killing her, as there are now more people crowding her on the glitter aisle of her local Dollar General, which has items costing a range of prices despite its name. If glitter is 90 cents a pound and she has 5 dollars, how many pounds of glitter can she buy?
+
+1005.Olive is a champion swimmer.  She can hold her breath underwater for 328 seconds.  How many milliseconds is that?	
