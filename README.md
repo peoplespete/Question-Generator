@@ -11,6 +11,24 @@ Having spent three years teaching high school physics, I know that students and 
 
 While this setup allows for collaboration, when a teacher is ready to assess students' learning, it is a nightmare.  Though a school could purchase privacy screens for the monitors, I think my approach is better, because a) it's free, b) if teachers allow students to work together students cannot copy on another, rather a student would have to explain to another student how they solved their version of the problem and then have them solve their own version using the same system, c) it provides the teacher with nearly instant feedback on student learning, without having to grade mountains of student work.
 
+Setup
+------
+Run from your command line:
+```
+git clone <CLONE_URL_FROM_GITHUB_PAGE>
+cd QuestionGenerator
+npm install
+```
+If the npm install will not run without errors try:
+```
+sudo npm install
+```
+If you do not have supervisor, [install supervisor](https://github.com/isaacs/node-supervisor).
+```
+supervisor app
+```
+The app should now be running at localhost:3002
+
 How To Use
 -----------
 This web app is designed for teachers and students.  It is to be used as follows.
