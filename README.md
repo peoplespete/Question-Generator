@@ -15,7 +15,7 @@ Setup
 ------
 Run from your command line:
 ```
-git clone <CLONE_URL_FROM_GITHUB_PAGE>
+git clone https://github.com/peoplespete/QuestionGenerator.git
 cd QuestionGenerator
 npm install
 ```
